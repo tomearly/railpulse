@@ -27,3 +27,8 @@ export type Station = Prisma.StationModel
  * 
  */
 export type Departure = Prisma.DepartureModel
+/**
+ * Model Arrival
+ * 
+ */
+export type Arrival = Prisma.ArrivalModel

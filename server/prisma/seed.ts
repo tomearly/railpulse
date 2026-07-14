@@ -15,6 +15,7 @@ async function main() {
   console.log("Cleaning up old database records...");
   // Clear any existing data so we don't create duplicates if we run this twice
   await prisma.departure.deleteMany({});
+  await prisma.arrival.deleteMany({});
   await prisma.station.deleteMany({});
 
   console.log("Seeding new station data...");
@@ -40,6 +41,19 @@ async function main() {
       { time: "15:10", destination: "Manchester Piccadilly", operator: "Avanti West Coast", platform: "6", status: "On Time", stationId: eus.id },
       { time: "15:23", destination: "Birmingham New Street", operator: "Avanti West Coast", platform: "12", status: "Delayed", delayMins: 5, stationId: eus.id },
       { time: "15:40", destination: "Glasgow Central", operator: "Avanti West Coast", platform: "15", status: "Cancelled", stationId: eus.id },
+    ],
+  });
+
+  await prisma.arrival.createMany({
+    data: [
+      // Northampton Arrivals
+      { time: "16:25", destination: "Northampton", operator: "London Northwestern Railway", platform: "1", status: "On Time", stationId: nmp.id },
+      { time: "16:45", destination: "Birmingham New Street", operator: "London Northwestern Railway", platform: "2", status: "Delayed", delayMins: 12, stationId: nmp.id },
+
+      // London Euston Arrivals
+      { time: "15:10", destination: "London Euston", operator: "Avanti West Coast", platform: "6", status: "On Time", stationId: eus.id },
+      { time: "15:23", destination: "London Euston", operator: "Avanti West Coast", platform: "12", status: "Delayed", delayMins: 5, stationId: eus.id },
+      { time: "15:40", destination: "London Euston", operator: "Avanti West Coast", platform: "15", status: "Cancelled", stationId: eus.id },
     ],
   });
 

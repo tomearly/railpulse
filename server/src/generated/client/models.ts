@@ -10,4 +10,5 @@
  */
 export type * from './models/Station.js'
 export type * from './models/Departure.js'
+export type * from './models/Arrival.js'
 export type * from './commonInputTypes.js'

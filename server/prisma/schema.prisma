@@ -12,7 +12,8 @@ model Station {
   id         String      @id @default(uuid())
   code       String      @unique
   name       String      
-  departures Departure[] 
+  departures Departure[]
+  arrivals   Arrival[]
   createdAt  DateTime    @default(now())
 }
 
@@ -25,6 +26,19 @@ model Departure {
   status      String   
   delayMins   Int?     
   stationId   String   
+  station     Station  @relation(fields: [stationId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model Arrival {
+  id          String   @id @default(uuid())
+  time        String
+  destination String
+  operator    String
+  platform    String?
+  status      String
+  delayMins   Int?
+  stationId   String
   station     Station  @relation(fields: [stationId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
 }

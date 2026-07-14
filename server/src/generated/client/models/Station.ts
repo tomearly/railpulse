@@ -175,6 +175,7 @@ export type StationWhereInput = {
   name?: Prisma.StringFilter<"Station"> | string
   createdAt?: Prisma.DateTimeFilter<"Station"> | Date | string
   departures?: Prisma.DepartureListRelationFilter
+  arrivals?: Prisma.ArrivalListRelationFilter
 }
 
 export type StationOrderByWithRelationInput = {
@@ -183,6 +184,7 @@ export type StationOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   departures?: Prisma.DepartureOrderByRelationAggregateInput
+  arrivals?: Prisma.ArrivalOrderByRelationAggregateInput
 }
 
 export type StationWhereUniqueInput = Prisma.AtLeast<{
@@ -194,6 +196,7 @@ export type StationWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Station"> | string
   createdAt?: Prisma.DateTimeFilter<"Station"> | Date | string
   departures?: Prisma.DepartureListRelationFilter
+  arrivals?: Prisma.ArrivalListRelationFilter
 }, "id" | "code">
 
 export type StationOrderByWithAggregationInput = {
@@ -222,6 +225,7 @@ export type StationCreateInput = {
   name: string
   createdAt?: Date | string
   departures?: Prisma.DepartureCreateNestedManyWithoutStationInput
+  arrivals?: Prisma.ArrivalCreateNestedManyWithoutStationInput
 }
 
 export type StationUncheckedCreateInput = {
@@ -230,6 +234,7 @@ export type StationUncheckedCreateInput = {
   name: string
   createdAt?: Date | string
   departures?: Prisma.DepartureUncheckedCreateNestedManyWithoutStationInput
+  arrivals?: Prisma.ArrivalUncheckedCreateNestedManyWithoutStationInput
 }
 
 export type StationUpdateInput = {
@@ -238,6 +243,7 @@ export type StationUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   departures?: Prisma.DepartureUpdateManyWithoutStationNestedInput
+  arrivals?: Prisma.ArrivalUpdateManyWithoutStationNestedInput
 }
 
 export type StationUncheckedUpdateInput = {
@@ -246,6 +252,7 @@ export type StationUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   departures?: Prisma.DepartureUncheckedUpdateManyWithoutStationNestedInput
+  arrivals?: Prisma.ArrivalUncheckedUpdateManyWithoutStationNestedInput
 }
 
 export type StationCreateManyInput = {
@@ -317,11 +324,26 @@ export type StationUpdateOneRequiredWithoutDeparturesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StationUpdateToOneWithWhereWithoutDeparturesInput, Prisma.StationUpdateWithoutDeparturesInput>, Prisma.StationUncheckedUpdateWithoutDeparturesInput>
 }
 
+export type StationCreateNestedOneWithoutArrivalsInput = {
+  create?: Prisma.XOR<Prisma.StationCreateWithoutArrivalsInput, Prisma.StationUncheckedCreateWithoutArrivalsInput>
+  connectOrCreate?: Prisma.StationCreateOrConnectWithoutArrivalsInput
+  connect?: Prisma.StationWhereUniqueInput
+}
+
+export type StationUpdateOneRequiredWithoutArrivalsNestedInput = {
+  create?: Prisma.XOR<Prisma.StationCreateWithoutArrivalsInput, Prisma.StationUncheckedCreateWithoutArrivalsInput>
+  connectOrCreate?: Prisma.StationCreateOrConnectWithoutArrivalsInput
+  upsert?: Prisma.StationUpsertWithoutArrivalsInput
+  connect?: Prisma.StationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StationUpdateToOneWithWhereWithoutArrivalsInput, Prisma.StationUpdateWithoutArrivalsInput>, Prisma.StationUncheckedUpdateWithoutArrivalsInput>
+}
+
 export type StationCreateWithoutDeparturesInput = {
   id?: string
   code: string
   name: string
   createdAt?: Date | string
+  arrivals?: Prisma.ArrivalCreateNestedManyWithoutStationInput
 }
 
 export type StationUncheckedCreateWithoutDeparturesInput = {
@@ -329,6 +351,7 @@ export type StationUncheckedCreateWithoutDeparturesInput = {
   code: string
   name: string
   createdAt?: Date | string
+  arrivals?: Prisma.ArrivalUncheckedCreateNestedManyWithoutStationInput
 }
 
 export type StationCreateOrConnectWithoutDeparturesInput = {
@@ -352,6 +375,7 @@ export type StationUpdateWithoutDeparturesInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  arrivals?: Prisma.ArrivalUpdateManyWithoutStationNestedInput
 }
 
 export type StationUncheckedUpdateWithoutDeparturesInput = {
@@ -359,6 +383,55 @@ export type StationUncheckedUpdateWithoutDeparturesInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  arrivals?: Prisma.ArrivalUncheckedUpdateManyWithoutStationNestedInput
+}
+
+export type StationCreateWithoutArrivalsInput = {
+  id?: string
+  code: string
+  name: string
+  createdAt?: Date | string
+  departures?: Prisma.DepartureCreateNestedManyWithoutStationInput
+}
+
+export type StationUncheckedCreateWithoutArrivalsInput = {
+  id?: string
+  code: string
+  name: string
+  createdAt?: Date | string
+  departures?: Prisma.DepartureUncheckedCreateNestedManyWithoutStationInput
+}
+
+export type StationCreateOrConnectWithoutArrivalsInput = {
+  where: Prisma.StationWhereUniqueInput
+  create: Prisma.XOR<Prisma.StationCreateWithoutArrivalsInput, Prisma.StationUncheckedCreateWithoutArrivalsInput>
+}
+
+export type StationUpsertWithoutArrivalsInput = {
+  update: Prisma.XOR<Prisma.StationUpdateWithoutArrivalsInput, Prisma.StationUncheckedUpdateWithoutArrivalsInput>
+  create: Prisma.XOR<Prisma.StationCreateWithoutArrivalsInput, Prisma.StationUncheckedCreateWithoutArrivalsInput>
+  where?: Prisma.StationWhereInput
+}
+
+export type StationUpdateToOneWithWhereWithoutArrivalsInput = {
+  where?: Prisma.StationWhereInput
+  data: Prisma.XOR<Prisma.StationUpdateWithoutArrivalsInput, Prisma.StationUncheckedUpdateWithoutArrivalsInput>
+}
+
+export type StationUpdateWithoutArrivalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  departures?: Prisma.DepartureUpdateManyWithoutStationNestedInput
+}
+
+export type StationUncheckedUpdateWithoutArrivalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  departures?: Prisma.DepartureUncheckedUpdateManyWithoutStationNestedInput
 }
 
 
@@ -368,10 +441,12 @@ export type StationUncheckedUpdateWithoutDeparturesInput = {
 
 export type StationCountOutputType = {
   departures: number
+  arrivals: number
 }
 
 export type StationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   departures?: boolean | StationCountOutputTypeCountDeparturesArgs
+  arrivals?: boolean | StationCountOutputTypeCountArrivalsArgs
 }
 
 /**
@@ -391,6 +466,13 @@ export type StationCountOutputTypeCountDeparturesArgs<ExtArgs extends runtime.Ty
   where?: Prisma.DepartureWhereInput
 }
 
+/**
+ * StationCountOutputType without action
+ */
+export type StationCountOutputTypeCountArrivalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ArrivalWhereInput
+}
+
 
 export type StationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -398,6 +480,7 @@ export type StationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name?: boolean
   createdAt?: boolean
   departures?: boolean | Prisma.Station$departuresArgs<ExtArgs>
+  arrivals?: boolean | Prisma.Station$arrivalsArgs<ExtArgs>
   _count?: boolean | Prisma.StationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["station"]>
 
@@ -425,6 +508,7 @@ export type StationSelectScalar = {
 export type StationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "createdAt", ExtArgs["result"]["station"]>
 export type StationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   departures?: boolean | Prisma.Station$departuresArgs<ExtArgs>
+  arrivals?: boolean | Prisma.Station$arrivalsArgs<ExtArgs>
   _count?: boolean | Prisma.StationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -434,6 +518,7 @@ export type $StationPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Station"
   objects: {
     departures: Prisma.$DeparturePayload<ExtArgs>[]
+    arrivals: Prisma.$ArrivalPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -835,6 +920,7 @@ readonly fields: StationFieldRefs;
 export interface Prisma__StationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   departures<T extends Prisma.Station$departuresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Station$departuresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeparturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  arrivals<T extends Prisma.Station$arrivalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Station$arrivalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ArrivalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1282,6 +1368,30 @@ export type Station$departuresArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.DepartureScalarFieldEnum | Prisma.DepartureScalarFieldEnum[]
+}
+
+/**
+ * Station.arrivals
+ */
+export type Station$arrivalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Arrival
+   */
+  select?: Prisma.ArrivalSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Arrival
+   */
+  omit?: Prisma.ArrivalOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ArrivalInclude<ExtArgs> | null
+  where?: Prisma.ArrivalWhereInput
+  orderBy?: Prisma.ArrivalOrderByWithRelationInput | Prisma.ArrivalOrderByWithRelationInput[]
+  cursor?: Prisma.ArrivalWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ArrivalScalarFieldEnum | Prisma.ArrivalScalarFieldEnum[]
 }
 
 /**

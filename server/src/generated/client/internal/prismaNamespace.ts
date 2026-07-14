@@ -385,7 +385,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Station: 'Station',
-  Departure: 'Departure'
+  Departure: 'Departure',
+  Arrival: 'Arrival'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -401,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "station" | "departure"
+    modelProps: "station" | "departure" | "arrival"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -553,6 +554,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Arrival: {
+      payload: Prisma.$ArrivalPayload<ExtArgs>
+      fields: Prisma.ArrivalFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ArrivalFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ArrivalFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalPayload>
+        }
+        findFirst: {
+          args: Prisma.ArrivalFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ArrivalFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalPayload>
+        }
+        findMany: {
+          args: Prisma.ArrivalFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalPayload>[]
+        }
+        create: {
+          args: Prisma.ArrivalCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalPayload>
+        }
+        createMany: {
+          args: Prisma.ArrivalCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ArrivalCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalPayload>[]
+        }
+        delete: {
+          args: Prisma.ArrivalDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalPayload>
+        }
+        update: {
+          args: Prisma.ArrivalUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalPayload>
+        }
+        deleteMany: {
+          args: Prisma.ArrivalDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ArrivalUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ArrivalUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalPayload>[]
+        }
+        upsert: {
+          args: Prisma.ArrivalUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalPayload>
+        }
+        aggregate: {
+          args: Prisma.ArrivalAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateArrival>
+        }
+        groupBy: {
+          args: Prisma.ArrivalGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ArrivalGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ArrivalCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ArrivalCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -615,6 +690,21 @@ export const DepartureScalarFieldEnum = {
 } as const
 
 export type DepartureScalarFieldEnum = (typeof DepartureScalarFieldEnum)[keyof typeof DepartureScalarFieldEnum]
+
+
+export const ArrivalScalarFieldEnum = {
+  id: 'id',
+  time: 'time',
+  destination: 'destination',
+  operator: 'operator',
+  platform: 'platform',
+  status: 'status',
+  delayMins: 'delayMins',
+  stationId: 'stationId',
+  createdAt: 'createdAt'
+} as const
+
+export type ArrivalScalarFieldEnum = (typeof ArrivalScalarFieldEnum)[keyof typeof ArrivalScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -814,6 +904,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   station?: Prisma.StationOmit
   departure?: Prisma.DepartureOmit
+  arrival?: Prisma.ArrivalOmit
 }
 
 /* Types for Logging */

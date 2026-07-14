@@ -52,7 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Station: 'Station',
-  Departure: 'Departure'
+  Departure: 'Departure',
+  Arrival: 'Arrival'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -94,6 +95,21 @@ export const DepartureScalarFieldEnum = {
 } as const
 
 export type DepartureScalarFieldEnum = (typeof DepartureScalarFieldEnum)[keyof typeof DepartureScalarFieldEnum]
+
+
+export const ArrivalScalarFieldEnum = {
+  id: 'id',
+  time: 'time',
+  destination: 'destination',
+  operator: 'operator',
+  platform: 'platform',
+  status: 'status',
+  delayMins: 'delayMins',
+  stationId: 'stationId',
+  createdAt: 'createdAt'
+} as const
+
+export type ArrivalScalarFieldEnum = (typeof ArrivalScalarFieldEnum)[keyof typeof ArrivalScalarFieldEnum]
 
 
 export const SortOrder = {
