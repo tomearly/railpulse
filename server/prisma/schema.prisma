@@ -1,0 +1,30 @@
+datasource db {
+  provider = "postgresql"
+  // Clean! No more "url =" or "directUrl =" properties here
+}
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/client" // Generates client locally inside your server src
+}
+
+model Station {
+  id         String      @id @default(uuid())
+  code       String      @unique
+  name       String      
+  departures Departure[] 
+  createdAt  DateTime    @default(now())
+}
+
+model Departure {
+  id          String   @id @default(uuid())
+  time        String   
+  destination String   
+  operator    String   
+  platform    String?  
+  status      String   
+  delayMins   Int?     
+  stationId   String   
+  station     Station  @relation(fields: [stationId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
