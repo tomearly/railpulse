@@ -165,6 +165,45 @@ app.get('/api/arrivals/:id', async (req, res) => {
     }
 });
 
+
+app.post('/api/arrivals', async (req, res) => {
+  try {
+    const { stationCode, time, origin, operator, platform, status, delayMins } = req.body;
+
+    // Validate required fields
+    if (!stationCode || !time || !origin || !operator || !platform || !status) {
+      return res.status(400).json({ error: 'Missing required fields in request body.' });
+    }
+
+    // Find the station by code
+    const station = await prisma.station.findUnique({
+      where: { code: stationCode.toUpperCase() },
+    });
+
+    if (!station) {
+      return res.status(404).json({ error: `Station code '${stationCode}' not found.` });
+    }
+
+    // Create a new arrival linked to the station
+    const newArrival = await prisma.arrival.create({
+      data: {
+        time,
+        destination: origin,
+        operator,
+        platform,
+        status,
+        delayMins: delayMins || null,
+        stationId: station.id,
+      },
+    });
+
+    res.status(201).json(newArrival);
+  } catch (error) {
+    console.error('Error creating arrival:', error);
+    res.status(500).json({ error: 'Failed to create new arrival.' });
+  }
+});
+
 app.listen(PORT, HOST, () => {
   console.log(`Server listening on http://${HOST}:${PORT}`);
 });
