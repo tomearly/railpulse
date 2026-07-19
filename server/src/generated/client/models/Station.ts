@@ -26,46 +26,40 @@ export type AggregateStation = {
 
 export type StationMinAggregateOutputType = {
   id: string | null
-  code: string | null
   name: string | null
-  createdAt: Date | null
+  crs: string | null
 }
 
 export type StationMaxAggregateOutputType = {
   id: string | null
-  code: string | null
   name: string | null
-  createdAt: Date | null
+  crs: string | null
 }
 
 export type StationCountAggregateOutputType = {
   id: number
-  code: number
   name: number
-  createdAt: number
+  crs: number
   _all: number
 }
 
 
 export type StationMinAggregateInputType = {
   id?: true
-  code?: true
   name?: true
-  createdAt?: true
+  crs?: true
 }
 
 export type StationMaxAggregateInputType = {
   id?: true
-  code?: true
   name?: true
-  createdAt?: true
+  crs?: true
 }
 
 export type StationCountAggregateInputType = {
   id?: true
-  code?: true
   name?: true
-  createdAt?: true
+  crs?: true
   _all?: true
 }
 
@@ -143,9 +137,8 @@ export type StationGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 
 export type StationGroupByOutputType = {
   id: string
-  code: string
   name: string
-  createdAt: Date
+  crs: string
   _count: StationCountAggregateOutputType | null
   _min: StationMinAggregateOutputType | null
   _max: StationMaxAggregateOutputType | null
@@ -170,40 +163,36 @@ export type StationWhereInput = {
   AND?: Prisma.StationWhereInput | Prisma.StationWhereInput[]
   OR?: Prisma.StationWhereInput[]
   NOT?: Prisma.StationWhereInput | Prisma.StationWhereInput[]
-  id?: Prisma.StringFilter<"Station"> | string
-  code?: Prisma.StringFilter<"Station"> | string
+  id?: Prisma.UuidFilter<"Station"> | string
   name?: Prisma.StringFilter<"Station"> | string
-  createdAt?: Prisma.DateTimeFilter<"Station"> | Date | string
-  departures?: Prisma.DepartureListRelationFilter
-  arrivals?: Prisma.ArrivalListRelationFilter
+  crs?: Prisma.StringFilter<"Station"> | string
+  asDepartureBoard?: Prisma.DepartureBoardListRelationFilter
+  serviceStops?: Prisma.ServiceStopListRelationFilter
 }
 
 export type StationOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  code?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  departures?: Prisma.DepartureOrderByRelationAggregateInput
-  arrivals?: Prisma.ArrivalOrderByRelationAggregateInput
+  crs?: Prisma.SortOrder
+  asDepartureBoard?: Prisma.DepartureBoardOrderByRelationAggregateInput
+  serviceStops?: Prisma.ServiceStopOrderByRelationAggregateInput
 }
 
 export type StationWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  code?: string
+  crs?: string
   AND?: Prisma.StationWhereInput | Prisma.StationWhereInput[]
   OR?: Prisma.StationWhereInput[]
   NOT?: Prisma.StationWhereInput | Prisma.StationWhereInput[]
   name?: Prisma.StringFilter<"Station"> | string
-  createdAt?: Prisma.DateTimeFilter<"Station"> | Date | string
-  departures?: Prisma.DepartureListRelationFilter
-  arrivals?: Prisma.ArrivalListRelationFilter
-}, "id" | "code">
+  asDepartureBoard?: Prisma.DepartureBoardListRelationFilter
+  serviceStops?: Prisma.ServiceStopListRelationFilter
+}, "id" | "crs">
 
 export type StationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  code?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  crs?: Prisma.SortOrder
   _count?: Prisma.StationCountOrderByAggregateInput
   _max?: Prisma.StationMaxOrderByAggregateInput
   _min?: Prisma.StationMinOrderByAggregateInput
@@ -213,88 +202,59 @@ export type StationScalarWhereWithAggregatesInput = {
   AND?: Prisma.StationScalarWhereWithAggregatesInput | Prisma.StationScalarWhereWithAggregatesInput[]
   OR?: Prisma.StationScalarWhereWithAggregatesInput[]
   NOT?: Prisma.StationScalarWhereWithAggregatesInput | Prisma.StationScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Station"> | string
-  code?: Prisma.StringWithAggregatesFilter<"Station"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"Station"> | string
   name?: Prisma.StringWithAggregatesFilter<"Station"> | string
-  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Station"> | Date | string
+  crs?: Prisma.StringWithAggregatesFilter<"Station"> | string
 }
 
 export type StationCreateInput = {
   id?: string
-  code: string
   name: string
-  createdAt?: Date | string
-  departures?: Prisma.DepartureCreateNestedManyWithoutStationInput
-  arrivals?: Prisma.ArrivalCreateNestedManyWithoutStationInput
+  crs: string
+  asDepartureBoard?: Prisma.DepartureBoardCreateNestedManyWithoutDepartureStationInput
+  serviceStops?: Prisma.ServiceStopCreateNestedManyWithoutStationInput
 }
 
 export type StationUncheckedCreateInput = {
   id?: string
-  code: string
   name: string
-  createdAt?: Date | string
-  departures?: Prisma.DepartureUncheckedCreateNestedManyWithoutStationInput
-  arrivals?: Prisma.ArrivalUncheckedCreateNestedManyWithoutStationInput
+  crs: string
+  asDepartureBoard?: Prisma.DepartureBoardUncheckedCreateNestedManyWithoutDepartureStationInput
+  serviceStops?: Prisma.ServiceStopUncheckedCreateNestedManyWithoutStationInput
 }
 
 export type StationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  departures?: Prisma.DepartureUpdateManyWithoutStationNestedInput
-  arrivals?: Prisma.ArrivalUpdateManyWithoutStationNestedInput
+  crs?: Prisma.StringFieldUpdateOperationsInput | string
+  asDepartureBoard?: Prisma.DepartureBoardUpdateManyWithoutDepartureStationNestedInput
+  serviceStops?: Prisma.ServiceStopUpdateManyWithoutStationNestedInput
 }
 
 export type StationUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  departures?: Prisma.DepartureUncheckedUpdateManyWithoutStationNestedInput
-  arrivals?: Prisma.ArrivalUncheckedUpdateManyWithoutStationNestedInput
+  crs?: Prisma.StringFieldUpdateOperationsInput | string
+  asDepartureBoard?: Prisma.DepartureBoardUncheckedUpdateManyWithoutDepartureStationNestedInput
+  serviceStops?: Prisma.ServiceStopUncheckedUpdateManyWithoutStationNestedInput
 }
 
 export type StationCreateManyInput = {
   id?: string
-  code: string
   name: string
-  createdAt?: Date | string
+  crs: string
 }
 
 export type StationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  crs?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type StationUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type StationCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  code?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-}
-
-export type StationMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  code?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-}
-
-export type StationMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  code?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  crs?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type StationScalarRelationFilter = {
@@ -302,136 +262,138 @@ export type StationScalarRelationFilter = {
   isNot?: Prisma.StationWhereInput
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
+export type StationCountOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  crs?: Prisma.SortOrder
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
+export type StationMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  crs?: Prisma.SortOrder
 }
 
-export type StationCreateNestedOneWithoutDeparturesInput = {
-  create?: Prisma.XOR<Prisma.StationCreateWithoutDeparturesInput, Prisma.StationUncheckedCreateWithoutDeparturesInput>
-  connectOrCreate?: Prisma.StationCreateOrConnectWithoutDeparturesInput
+export type StationMinOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  crs?: Prisma.SortOrder
+}
+
+export type StationCreateNestedOneWithoutAsDepartureBoardInput = {
+  create?: Prisma.XOR<Prisma.StationCreateWithoutAsDepartureBoardInput, Prisma.StationUncheckedCreateWithoutAsDepartureBoardInput>
+  connectOrCreate?: Prisma.StationCreateOrConnectWithoutAsDepartureBoardInput
   connect?: Prisma.StationWhereUniqueInput
 }
 
-export type StationUpdateOneRequiredWithoutDeparturesNestedInput = {
-  create?: Prisma.XOR<Prisma.StationCreateWithoutDeparturesInput, Prisma.StationUncheckedCreateWithoutDeparturesInput>
-  connectOrCreate?: Prisma.StationCreateOrConnectWithoutDeparturesInput
-  upsert?: Prisma.StationUpsertWithoutDeparturesInput
+export type StationUpdateOneRequiredWithoutAsDepartureBoardNestedInput = {
+  create?: Prisma.XOR<Prisma.StationCreateWithoutAsDepartureBoardInput, Prisma.StationUncheckedCreateWithoutAsDepartureBoardInput>
+  connectOrCreate?: Prisma.StationCreateOrConnectWithoutAsDepartureBoardInput
+  upsert?: Prisma.StationUpsertWithoutAsDepartureBoardInput
   connect?: Prisma.StationWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.StationUpdateToOneWithWhereWithoutDeparturesInput, Prisma.StationUpdateWithoutDeparturesInput>, Prisma.StationUncheckedUpdateWithoutDeparturesInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StationUpdateToOneWithWhereWithoutAsDepartureBoardInput, Prisma.StationUpdateWithoutAsDepartureBoardInput>, Prisma.StationUncheckedUpdateWithoutAsDepartureBoardInput>
 }
 
-export type StationCreateNestedOneWithoutArrivalsInput = {
-  create?: Prisma.XOR<Prisma.StationCreateWithoutArrivalsInput, Prisma.StationUncheckedCreateWithoutArrivalsInput>
-  connectOrCreate?: Prisma.StationCreateOrConnectWithoutArrivalsInput
+export type StationCreateNestedOneWithoutServiceStopsInput = {
+  create?: Prisma.XOR<Prisma.StationCreateWithoutServiceStopsInput, Prisma.StationUncheckedCreateWithoutServiceStopsInput>
+  connectOrCreate?: Prisma.StationCreateOrConnectWithoutServiceStopsInput
   connect?: Prisma.StationWhereUniqueInput
 }
 
-export type StationUpdateOneRequiredWithoutArrivalsNestedInput = {
-  create?: Prisma.XOR<Prisma.StationCreateWithoutArrivalsInput, Prisma.StationUncheckedCreateWithoutArrivalsInput>
-  connectOrCreate?: Prisma.StationCreateOrConnectWithoutArrivalsInput
-  upsert?: Prisma.StationUpsertWithoutArrivalsInput
+export type StationUpdateOneRequiredWithoutServiceStopsNestedInput = {
+  create?: Prisma.XOR<Prisma.StationCreateWithoutServiceStopsInput, Prisma.StationUncheckedCreateWithoutServiceStopsInput>
+  connectOrCreate?: Prisma.StationCreateOrConnectWithoutServiceStopsInput
+  upsert?: Prisma.StationUpsertWithoutServiceStopsInput
   connect?: Prisma.StationWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.StationUpdateToOneWithWhereWithoutArrivalsInput, Prisma.StationUpdateWithoutArrivalsInput>, Prisma.StationUncheckedUpdateWithoutArrivalsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StationUpdateToOneWithWhereWithoutServiceStopsInput, Prisma.StationUpdateWithoutServiceStopsInput>, Prisma.StationUncheckedUpdateWithoutServiceStopsInput>
 }
 
-export type StationCreateWithoutDeparturesInput = {
+export type StationCreateWithoutAsDepartureBoardInput = {
   id?: string
-  code: string
   name: string
-  createdAt?: Date | string
-  arrivals?: Prisma.ArrivalCreateNestedManyWithoutStationInput
+  crs: string
+  serviceStops?: Prisma.ServiceStopCreateNestedManyWithoutStationInput
 }
 
-export type StationUncheckedCreateWithoutDeparturesInput = {
+export type StationUncheckedCreateWithoutAsDepartureBoardInput = {
   id?: string
-  code: string
   name: string
-  createdAt?: Date | string
-  arrivals?: Prisma.ArrivalUncheckedCreateNestedManyWithoutStationInput
+  crs: string
+  serviceStops?: Prisma.ServiceStopUncheckedCreateNestedManyWithoutStationInput
 }
 
-export type StationCreateOrConnectWithoutDeparturesInput = {
+export type StationCreateOrConnectWithoutAsDepartureBoardInput = {
   where: Prisma.StationWhereUniqueInput
-  create: Prisma.XOR<Prisma.StationCreateWithoutDeparturesInput, Prisma.StationUncheckedCreateWithoutDeparturesInput>
+  create: Prisma.XOR<Prisma.StationCreateWithoutAsDepartureBoardInput, Prisma.StationUncheckedCreateWithoutAsDepartureBoardInput>
 }
 
-export type StationUpsertWithoutDeparturesInput = {
-  update: Prisma.XOR<Prisma.StationUpdateWithoutDeparturesInput, Prisma.StationUncheckedUpdateWithoutDeparturesInput>
-  create: Prisma.XOR<Prisma.StationCreateWithoutDeparturesInput, Prisma.StationUncheckedCreateWithoutDeparturesInput>
+export type StationUpsertWithoutAsDepartureBoardInput = {
+  update: Prisma.XOR<Prisma.StationUpdateWithoutAsDepartureBoardInput, Prisma.StationUncheckedUpdateWithoutAsDepartureBoardInput>
+  create: Prisma.XOR<Prisma.StationCreateWithoutAsDepartureBoardInput, Prisma.StationUncheckedCreateWithoutAsDepartureBoardInput>
   where?: Prisma.StationWhereInput
 }
 
-export type StationUpdateToOneWithWhereWithoutDeparturesInput = {
+export type StationUpdateToOneWithWhereWithoutAsDepartureBoardInput = {
   where?: Prisma.StationWhereInput
-  data: Prisma.XOR<Prisma.StationUpdateWithoutDeparturesInput, Prisma.StationUncheckedUpdateWithoutDeparturesInput>
+  data: Prisma.XOR<Prisma.StationUpdateWithoutAsDepartureBoardInput, Prisma.StationUncheckedUpdateWithoutAsDepartureBoardInput>
 }
 
-export type StationUpdateWithoutDeparturesInput = {
+export type StationUpdateWithoutAsDepartureBoardInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  arrivals?: Prisma.ArrivalUpdateManyWithoutStationNestedInput
+  crs?: Prisma.StringFieldUpdateOperationsInput | string
+  serviceStops?: Prisma.ServiceStopUpdateManyWithoutStationNestedInput
 }
 
-export type StationUncheckedUpdateWithoutDeparturesInput = {
+export type StationUncheckedUpdateWithoutAsDepartureBoardInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  arrivals?: Prisma.ArrivalUncheckedUpdateManyWithoutStationNestedInput
+  crs?: Prisma.StringFieldUpdateOperationsInput | string
+  serviceStops?: Prisma.ServiceStopUncheckedUpdateManyWithoutStationNestedInput
 }
 
-export type StationCreateWithoutArrivalsInput = {
+export type StationCreateWithoutServiceStopsInput = {
   id?: string
-  code: string
   name: string
-  createdAt?: Date | string
-  departures?: Prisma.DepartureCreateNestedManyWithoutStationInput
+  crs: string
+  asDepartureBoard?: Prisma.DepartureBoardCreateNestedManyWithoutDepartureStationInput
 }
 
-export type StationUncheckedCreateWithoutArrivalsInput = {
+export type StationUncheckedCreateWithoutServiceStopsInput = {
   id?: string
-  code: string
   name: string
-  createdAt?: Date | string
-  departures?: Prisma.DepartureUncheckedCreateNestedManyWithoutStationInput
+  crs: string
+  asDepartureBoard?: Prisma.DepartureBoardUncheckedCreateNestedManyWithoutDepartureStationInput
 }
 
-export type StationCreateOrConnectWithoutArrivalsInput = {
+export type StationCreateOrConnectWithoutServiceStopsInput = {
   where: Prisma.StationWhereUniqueInput
-  create: Prisma.XOR<Prisma.StationCreateWithoutArrivalsInput, Prisma.StationUncheckedCreateWithoutArrivalsInput>
+  create: Prisma.XOR<Prisma.StationCreateWithoutServiceStopsInput, Prisma.StationUncheckedCreateWithoutServiceStopsInput>
 }
 
-export type StationUpsertWithoutArrivalsInput = {
-  update: Prisma.XOR<Prisma.StationUpdateWithoutArrivalsInput, Prisma.StationUncheckedUpdateWithoutArrivalsInput>
-  create: Prisma.XOR<Prisma.StationCreateWithoutArrivalsInput, Prisma.StationUncheckedCreateWithoutArrivalsInput>
+export type StationUpsertWithoutServiceStopsInput = {
+  update: Prisma.XOR<Prisma.StationUpdateWithoutServiceStopsInput, Prisma.StationUncheckedUpdateWithoutServiceStopsInput>
+  create: Prisma.XOR<Prisma.StationCreateWithoutServiceStopsInput, Prisma.StationUncheckedCreateWithoutServiceStopsInput>
   where?: Prisma.StationWhereInput
 }
 
-export type StationUpdateToOneWithWhereWithoutArrivalsInput = {
+export type StationUpdateToOneWithWhereWithoutServiceStopsInput = {
   where?: Prisma.StationWhereInput
-  data: Prisma.XOR<Prisma.StationUpdateWithoutArrivalsInput, Prisma.StationUncheckedUpdateWithoutArrivalsInput>
+  data: Prisma.XOR<Prisma.StationUpdateWithoutServiceStopsInput, Prisma.StationUncheckedUpdateWithoutServiceStopsInput>
 }
 
-export type StationUpdateWithoutArrivalsInput = {
+export type StationUpdateWithoutServiceStopsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  departures?: Prisma.DepartureUpdateManyWithoutStationNestedInput
+  crs?: Prisma.StringFieldUpdateOperationsInput | string
+  asDepartureBoard?: Prisma.DepartureBoardUpdateManyWithoutDepartureStationNestedInput
 }
 
-export type StationUncheckedUpdateWithoutArrivalsInput = {
+export type StationUncheckedUpdateWithoutServiceStopsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  departures?: Prisma.DepartureUncheckedUpdateManyWithoutStationNestedInput
+  crs?: Prisma.StringFieldUpdateOperationsInput | string
+  asDepartureBoard?: Prisma.DepartureBoardUncheckedUpdateManyWithoutDepartureStationNestedInput
 }
 
 
@@ -440,13 +402,13 @@ export type StationUncheckedUpdateWithoutArrivalsInput = {
  */
 
 export type StationCountOutputType = {
-  departures: number
-  arrivals: number
+  asDepartureBoard: number
+  serviceStops: number
 }
 
 export type StationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  departures?: boolean | StationCountOutputTypeCountDeparturesArgs
-  arrivals?: boolean | StationCountOutputTypeCountArrivalsArgs
+  asDepartureBoard?: boolean | StationCountOutputTypeCountAsDepartureBoardArgs
+  serviceStops?: boolean | StationCountOutputTypeCountServiceStopsArgs
 }
 
 /**
@@ -462,53 +424,49 @@ export type StationCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
 /**
  * StationCountOutputType without action
  */
-export type StationCountOutputTypeCountDeparturesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DepartureWhereInput
+export type StationCountOutputTypeCountAsDepartureBoardArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DepartureBoardWhereInput
 }
 
 /**
  * StationCountOutputType without action
  */
-export type StationCountOutputTypeCountArrivalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ArrivalWhereInput
+export type StationCountOutputTypeCountServiceStopsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ServiceStopWhereInput
 }
 
 
 export type StationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  code?: boolean
   name?: boolean
-  createdAt?: boolean
-  departures?: boolean | Prisma.Station$departuresArgs<ExtArgs>
-  arrivals?: boolean | Prisma.Station$arrivalsArgs<ExtArgs>
+  crs?: boolean
+  asDepartureBoard?: boolean | Prisma.Station$asDepartureBoardArgs<ExtArgs>
+  serviceStops?: boolean | Prisma.Station$serviceStopsArgs<ExtArgs>
   _count?: boolean | Prisma.StationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["station"]>
 
 export type StationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  code?: boolean
   name?: boolean
-  createdAt?: boolean
+  crs?: boolean
 }, ExtArgs["result"]["station"]>
 
 export type StationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  code?: boolean
   name?: boolean
-  createdAt?: boolean
+  crs?: boolean
 }, ExtArgs["result"]["station"]>
 
 export type StationSelectScalar = {
   id?: boolean
-  code?: boolean
   name?: boolean
-  createdAt?: boolean
+  crs?: boolean
 }
 
-export type StationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "createdAt", ExtArgs["result"]["station"]>
+export type StationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "crs", ExtArgs["result"]["station"]>
 export type StationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  departures?: boolean | Prisma.Station$departuresArgs<ExtArgs>
-  arrivals?: boolean | Prisma.Station$arrivalsArgs<ExtArgs>
+  asDepartureBoard?: boolean | Prisma.Station$asDepartureBoardArgs<ExtArgs>
+  serviceStops?: boolean | Prisma.Station$serviceStopsArgs<ExtArgs>
   _count?: boolean | Prisma.StationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -517,14 +475,13 @@ export type StationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type $StationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Station"
   objects: {
-    departures: Prisma.$DeparturePayload<ExtArgs>[]
-    arrivals: Prisma.$ArrivalPayload<ExtArgs>[]
+    asDepartureBoard: Prisma.$DepartureBoardPayload<ExtArgs>[]
+    serviceStops: Prisma.$ServiceStopPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    code: string
     name: string
-    createdAt: Date
+    crs: string
   }, ExtArgs["result"]["station"]>
   composites: {}
 }
@@ -919,8 +876,8 @@ readonly fields: StationFieldRefs;
  */
 export interface Prisma__StationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  departures<T extends Prisma.Station$departuresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Station$departuresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeparturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  arrivals<T extends Prisma.Station$arrivalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Station$arrivalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ArrivalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  asDepartureBoard<T extends Prisma.Station$asDepartureBoardArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Station$asDepartureBoardArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DepartureBoardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  serviceStops<T extends Prisma.Station$serviceStopsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Station$serviceStopsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServiceStopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -951,9 +908,8 @@ export interface Prisma__StationClient<T, Null = never, ExtArgs extends runtime.
  */
 export interface StationFieldRefs {
   readonly id: Prisma.FieldRef<"Station", 'String'>
-  readonly code: Prisma.FieldRef<"Station", 'String'>
   readonly name: Prisma.FieldRef<"Station", 'String'>
-  readonly createdAt: Prisma.FieldRef<"Station", 'DateTime'>
+  readonly crs: Prisma.FieldRef<"Station", 'String'>
 }
     
 
@@ -1347,51 +1303,51 @@ export type StationDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * Station.departures
+ * Station.asDepartureBoard
  */
-export type Station$departuresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Station$asDepartureBoardArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Departure
+   * Select specific fields to fetch from the DepartureBoard
    */
-  select?: Prisma.DepartureSelect<ExtArgs> | null
+  select?: Prisma.DepartureBoardSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Departure
+   * Omit specific fields from the DepartureBoard
    */
-  omit?: Prisma.DepartureOmit<ExtArgs> | null
+  omit?: Prisma.DepartureBoardOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.DepartureInclude<ExtArgs> | null
-  where?: Prisma.DepartureWhereInput
-  orderBy?: Prisma.DepartureOrderByWithRelationInput | Prisma.DepartureOrderByWithRelationInput[]
-  cursor?: Prisma.DepartureWhereUniqueInput
+  include?: Prisma.DepartureBoardInclude<ExtArgs> | null
+  where?: Prisma.DepartureBoardWhereInput
+  orderBy?: Prisma.DepartureBoardOrderByWithRelationInput | Prisma.DepartureBoardOrderByWithRelationInput[]
+  cursor?: Prisma.DepartureBoardWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.DepartureScalarFieldEnum | Prisma.DepartureScalarFieldEnum[]
+  distinct?: Prisma.DepartureBoardScalarFieldEnum | Prisma.DepartureBoardScalarFieldEnum[]
 }
 
 /**
- * Station.arrivals
+ * Station.serviceStops
  */
-export type Station$arrivalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Station$serviceStopsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Arrival
+   * Select specific fields to fetch from the ServiceStop
    */
-  select?: Prisma.ArrivalSelect<ExtArgs> | null
+  select?: Prisma.ServiceStopSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Arrival
+   * Omit specific fields from the ServiceStop
    */
-  omit?: Prisma.ArrivalOmit<ExtArgs> | null
+  omit?: Prisma.ServiceStopOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ArrivalInclude<ExtArgs> | null
-  where?: Prisma.ArrivalWhereInput
-  orderBy?: Prisma.ArrivalOrderByWithRelationInput | Prisma.ArrivalOrderByWithRelationInput[]
-  cursor?: Prisma.ArrivalWhereUniqueInput
+  include?: Prisma.ServiceStopInclude<ExtArgs> | null
+  where?: Prisma.ServiceStopWhereInput
+  orderBy?: Prisma.ServiceStopOrderByWithRelationInput | Prisma.ServiceStopOrderByWithRelationInput[]
+  cursor?: Prisma.ServiceStopWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ArrivalScalarFieldEnum | Prisma.ArrivalScalarFieldEnum[]
+  distinct?: Prisma.ServiceStopScalarFieldEnum | Prisma.ServiceStopScalarFieldEnum[]
 }
 
 /**

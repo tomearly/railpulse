@@ -1,1 +1,24 @@
 @import "tailwindcss";
+
+.scroll-container {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    /* Ensure the container has a defined width */
+}
+
+.scroll-text {
+    display: inline-block;
+    white-space: nowrap;
+    /* Use 'linear' for constant speed */
+    animation: scroll-left 10s linear infinite;
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(100%); /* Start just off the right edge */
+    }
+    100% {
+        transform: translateX(-100%); /* End just off the left edge */
+    }
+}

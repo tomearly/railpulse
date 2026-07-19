@@ -51,9 +51,12 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  DepartureBoard: 'DepartureBoard',
   Station: 'Station',
-  Departure: 'Departure',
-  Arrival: 'Arrival'
+  Service: 'Service',
+  ServiceStop: 'ServiceStop',
+  Operator: 'Operator',
+  Status: 'Status'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -72,44 +75,68 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const DepartureBoardScalarFieldEnum = {
+  id: 'id',
+  generatedAt: 'generatedAt',
+  stationId: 'stationId'
+} as const
+
+export type DepartureBoardScalarFieldEnum = (typeof DepartureBoardScalarFieldEnum)[keyof typeof DepartureBoardScalarFieldEnum]
+
+
 export const StationScalarFieldEnum = {
   id: 'id',
-  code: 'code',
   name: 'name',
-  createdAt: 'createdAt'
+  crs: 'crs'
 } as const
 
 export type StationScalarFieldEnum = (typeof StationScalarFieldEnum)[keyof typeof StationScalarFieldEnum]
 
 
-export const DepartureScalarFieldEnum = {
+export const ServiceScalarFieldEnum = {
   id: 'id',
-  time: 'time',
-  destination: 'destination',
-  operator: 'operator',
-  platform: 'platform',
-  status: 'status',
-  delayMins: 'delayMins',
-  stationId: 'stationId',
-  createdAt: 'createdAt'
+  trainUid: 'trainUid',
+  mode: 'mode',
+  category: 'category',
+  departureInfo: 'departureInfo',
+  operatorId: 'operatorId',
+  statusId: 'statusId',
+  boardId: 'boardId',
+  platform: 'platform'
 } as const
 
-export type DepartureScalarFieldEnum = (typeof DepartureScalarFieldEnum)[keyof typeof DepartureScalarFieldEnum]
+export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
 
 
-export const ArrivalScalarFieldEnum = {
+export const ServiceStopScalarFieldEnum = {
   id: 'id',
-  time: 'time',
-  destination: 'destination',
-  operator: 'operator',
-  platform: 'platform',
-  status: 'status',
-  delayMins: 'delayMins',
+  serviceId: 'serviceId',
   stationId: 'stationId',
-  createdAt: 'createdAt'
+  stopOrder: 'stopOrder',
+  scheduledTime: 'scheduledTime',
+  estimatedTime: 'estimatedTime'
 } as const
 
-export type ArrivalScalarFieldEnum = (typeof ArrivalScalarFieldEnum)[keyof typeof ArrivalScalarFieldEnum]
+export type ServiceStopScalarFieldEnum = (typeof ServiceStopScalarFieldEnum)[keyof typeof ServiceStopScalarFieldEnum]
+
+
+export const OperatorScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code'
+} as const
+
+export type OperatorScalarFieldEnum = (typeof OperatorScalarFieldEnum)[keyof typeof OperatorScalarFieldEnum]
+
+
+export const StatusScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  delayMinutes: 'delayMinutes',
+  reason: 'reason'
+} as const
+
+export type StatusScalarFieldEnum = (typeof StatusScalarFieldEnum)[keyof typeof StatusScalarFieldEnum]
 
 
 export const SortOrder = {

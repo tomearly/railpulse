@@ -31,8 +31,8 @@ export * from "./enums.js"
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Stations
- * const stations = await prisma.station.findMany()
+ * // Fetch zero or more DepartureBoards
+ * const departureBoards = await prisma.departureBoard.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -42,17 +42,32 @@ export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts exten
 export { Prisma }
 
 /**
+ * Model DepartureBoard
+ * 
+ */
+export type DepartureBoard = Prisma.DepartureBoardModel
+/**
  * Model Station
  * 
  */
 export type Station = Prisma.StationModel
 /**
- * Model Departure
+ * Model Service
  * 
  */
-export type Departure = Prisma.DepartureModel
+export type Service = Prisma.ServiceModel
 /**
- * Model Arrival
+ * Model ServiceStop
  * 
  */
-export type Arrival = Prisma.ArrivalModel
+export type ServiceStop = Prisma.ServiceStopModel
+/**
+ * Model Operator
+ * 
+ */
+export type Operator = Prisma.OperatorModel
+/**
+ * Model Status
+ * 
+ */
+export type Status = Prisma.StatusModel

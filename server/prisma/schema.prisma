@@ -8,37 +8,76 @@ generator client {
   output   = "../src/generated/client" // Generates client locally inside your server src
 }
 
+model DepartureBoard {
+  id               String    @id @default(uuid()) @db.Uuid
+  generatedAt      DateTime
+  stationId        String    @db.Uuid
+  departureStation Station   @relation("DepartureStation", fields: [stationId], references: [id])
+  services         Service[]
+
+  @@index([generatedAt])
+}
+
 model Station {
-  id         String      @id @default(uuid())
-  code       String      @unique
-  name       String      
-  departures Departure[]
-  arrivals   Arrival[]
-  createdAt  DateTime    @default(now())
+  id               String        @id @default(uuid()) @db.Uuid
+  name             String
+  crs              String        @unique @db.VarChar(3)
+  asDepartureBoard DepartureBoard[] @relation("DepartureStation")
+  serviceStops     ServiceStop[]
+
+  @@index([crs])
 }
 
-model Departure {
-  id          String   @id @default(uuid())
-  time        String   
-  destination String   
-  operator    String   
-  platform    String?  
-  status      String   
-  delayMins   Int?     
-  stationId   String   
-  station     Station  @relation(fields: [stationId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
+model Service {
+  id             String        @id // Keeping as provided ID (e.g., RID-...)
+  trainUid       String
+  mode           String
+  category       String
+  departureInfo  DateTime
+
+  operatorId     String        @db.Uuid
+  operator       Operator      @relation(fields: [operatorId], references: [id])
+
+  statusId       String        @db.Uuid
+  status         Status        @relation(fields: [statusId], references: [id])
+
+  boardId        String        @db.Uuid
+  board          DepartureBoard @relation(fields: [boardId], references: [id])
+
+  stops          ServiceStop[]
+
+  platform       String?
+
+  @@index([departureInfo])
+  @@index([operatorId])
+  @@index([statusId])
 }
 
-model Arrival {
-  id          String   @id @default(uuid())
-  time        String
-  destination String
-  operator    String
-  platform    String?
-  status      String
-  delayMins   Int?
-  stationId   String
-  station     Station  @relation(fields: [stationId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
+model ServiceStop {
+  id            String    @id @default(uuid()) @db.Uuid
+  serviceId     String
+  service       Service   @relation(fields: [serviceId], references: [id])
+  stationId     String    @db.Uuid
+  station       Station   @relation(fields: [stationId], references: [id])
+  stopOrder     Int
+  scheduledTime DateTime
+  estimatedTime DateTime?
+
+  @@index([serviceId, stopOrder])
+  @@index([stationId])
+}
+
+model Operator {
+  id       String    @id @default(uuid()) @db.Uuid
+  name     String
+  code     String    @unique
+  services Service[]
+}
+
+model Status {
+  id           String    @id @default(uuid()) @db.Uuid
+  status       String    // "On Time", "Delayed", etc.
+  delayMinutes Int       @default(0)
+  reason       String?   // Failure reason
+  services     Service[]
 }

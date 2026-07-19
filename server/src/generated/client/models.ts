@@ -8,7 +8,10 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/DepartureBoard.js'
 export type * from './models/Station.js'
-export type * from './models/Departure.js'
-export type * from './models/Arrival.js'
+export type * from './models/Service.js'
+export type * from './models/ServiceStop.js'
+export type * from './models/Operator.js'
+export type * from './models/Status.js'
 export type * from './commonInputTypes.js'
