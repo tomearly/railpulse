@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react'
+import WeatherTelemetryWidget from './WeatherTelemetryWidget.tsx'
 
 export interface Station {
     id: string;
@@ -40,6 +41,19 @@ export interface Service {
     stops: ServiceStop[];
 }
 
+const stationData = [
+    { name: 'London Euston', crs: 'EUS', lat: 51.5281, lng: -0.1337 },
+    { name: 'Manchester Piccadilly', crs: 'MAN', lat: 53.4774, lng: -2.2309 },
+    { name: 'Birmingham New Street', crs: 'BHM', lat: 52.4778, lng: -1.8992 },
+    { name: 'London Kings Cross', crs: 'KGX', lat: 51.5322, lng: -0.1233 },
+    { name: 'London Paddington', crs: 'PAD', lat: 51.5154, lng: -0.1755 },
+    { name: 'London Victoria', crs: 'VIC', lat: 51.4952, lng: -0.1439 },
+    { name: 'London St Pancras', crs: 'STP', lat: 51.5317, lng: -0.1260 },
+    { name: 'Cardiff Central', crs: 'CDF', lat: 51.4764, lng: -3.1779 }
+];
+
+const crsCodes = stationData.map(station => station.crs);
+
 export default function App() {
     const [searchCode, setSearchCode] = useState('EUS')
 
@@ -48,11 +62,24 @@ export default function App() {
     const [departures, setDepartures] = useState<Service[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const [unknownStation, setUnknownStation] = useState('')
 
     // 2. Fetch runs whenever searchCode changes!
     useEffect(() => {
+        setUnknownStation('')
+
         // Only fetch if the user has entered a standard 3-letter British rail code
-        if (searchCode.length !== 3) return;
+        if (searchCode.length !== 3) {
+            return;
+        }
+        if (!crsCodes.includes(searchCode)) {
+            setStationName('Unknown Station')
+            setUnknownStation('Unknown station code')
+            setTimeout(() => {
+                setSearchCode('')
+            }, 3000);
+            return;
+        }
 
         const controller = new AbortController(); // Prevents memory leaks if searchCode changes fast
 
@@ -91,10 +118,6 @@ export default function App() {
         return () => controller.abort(); // Cleanup function
     }, [searchCode]); // <-- Adding searchCode here makes this effect react to input changes!
 
-    useEffect(() => {
-        console.log("Departures state has been updated:", departures);
-    }, [departures]);
-
     return (
         <div className="min-h-screen bg-slate-950 text-slate-100 font-sans p-6 md:p-12">
             <header
@@ -105,18 +128,19 @@ export default function App() {
                         {loading ? "Searching..." : `${stationName} (${searchCode.toUpperCase()})`}
                     </h1>
                 </div>
+                <WeatherTelemetryWidget stationCode={searchCode} />
 
                 <div className="mt-4 md:mt-0">
-                    <label className="text-xs text-slate-400 block mb-1 font-semibold uppercase tracking-wider">Enter
-                        3-Letter Station Code</label>
+                    <label className="text-xs text-slate-400 block mb-1 font-semibold uppercase tracking-wider">Enter 3-Letter Station Code</label>
                     <input
                         type="text"
                         maxLength={3}
                         value={searchCode}
                         onChange={(e) => setSearchCode(e.target.value.toUpperCase())}
-                        className="bg-slate-900 border border-slate-700 text-amber-500 font-mono tracking-widest text-xl px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 w-full md:w-48 text-center uppercase"
-                        placeholder="NMP"
+                        className="my-4 bg-slate-900 border border-slate-700 text-amber-500 font-mono tracking-widest text-xl px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 w-full md:w-48 text-center uppercase"
+                        placeholder="EUS"
                     />
+                    <p className="text-amber-500">{unknownStation && <span>{unknownStation }</span>}</p>
                 </div>
             </header>
 
@@ -194,6 +218,9 @@ export default function App() {
                             );
                         })}
                     </div>
+                    {departures.length === 0 &&
+                        <p className="p-4">No planned departures</p>
+                    }
                 </div>
             </main>
         </div>

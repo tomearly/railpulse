@@ -12,10 +12,14 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:5000', // Points directly to your Node backend
+        target: 'http://localhost:4000', // Updated port
         changeOrigin: true,
-        secure: false,
       },
-    },
-  },
+      '/socket.io': {
+        target: 'http://localhost:4000', // Updated port
+        ws: true,
+        changeOrigin: true,
+      }
+    }
+  }
 })
