@@ -1,0 +1,21 @@
+{
+  "name": "railpulse",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomearly/railpulse.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomearly/railpulse/issues"
+  },
+  "homepage": "https://github.com/tomearly/railpulse#readme",
+  "devDependencies": {
+    "concurrently": "^10.0.3"
+  }
+}
