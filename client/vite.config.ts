@@ -14,11 +14,6 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:4000', // Updated port
         changeOrigin: true,
-      },
-      '/socket.io': {
-        target: 'http://localhost:4000', // Updated port
-        ws: true,
-        changeOrigin: true,
       }
     }
   }

@@ -2,8 +2,13 @@
   "name": "railpulse",
   "version": "1.0.0",
   "description": "",
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\""
+    "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
+    "vercel-build": "npm run prisma:generate --workspace server && npm run build --workspace client"
   },
   "repository": {
     "type": "git",

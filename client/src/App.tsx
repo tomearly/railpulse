@@ -39,6 +39,7 @@ export interface Service {
     operator: Operator;
     status: Status;
     stops: ServiceStop[];
+    platform?: string | null;
 }
 
 const stationData = [
@@ -61,7 +62,7 @@ export default function App() {
     const [stationName, setStationName] = useState('Euston')
     const [departures, setDepartures] = useState<Service[]>([])
     const [loading, setLoading] = useState(true)
-    const [error, setError] = useState<string | null>(null)
+    const [_error, setError] = useState<string | null>(null)
     const [unknownStation, setUnknownStation] = useState('')
 
     // 2. Fetch runs whenever searchCode changes!
@@ -70,6 +71,7 @@ export default function App() {
 
         // Only fetch if the user has entered a standard 3-letter British rail code
         if (searchCode.length !== 3) {
+            setStationName('')
             return;
         }
         if (!crsCodes.includes(searchCode)) {
@@ -86,35 +88,42 @@ export default function App() {
         setLoading(true);
         setError(null);
 
-        fetch(`/api/v1/stations/${searchCode}`)
-            .then((res) => {
-                if (!res.ok) throw new Error(`Station '${searchCode.toUpperCase()}' not found`);
-                setStationName('')
+        const fetchStation = async () => {
+            try {
+                const response = await fetch(`/api/v1/stations/${searchCode}`, { signal: controller.signal });
+                if (!response.ok) {
+                    throw new Error(`Station '${searchCode.toUpperCase()}' not found`);
+                }
 
-                return res.json();
-            })
-            .then((data) => {
+                setStationName('');
+                const data = await response.json();
                 setStationName(data.name);
-            })
-            .catch((err) => {
-                setError(err.message);
-            });
+            } catch (err) {
+                if (err instanceof Error && err.name === 'AbortError') return;
+                setError(err instanceof Error ? err.message : 'An unexpected error occurred');
+            }
+        };
 
         const fetchDepartures = async () => {
             try {
-                setLoading(true);
-                const response = await fetch(`/api/v1/departures/${searchCode}`);
+                const response = await fetch(`/api/v1/departures/${searchCode}`, { signal: controller.signal });
+                if (!response.ok) {
+                    throw new Error(`Unable to load departures for '${searchCode.toUpperCase()}'`);
+                }
+
                 const data = await response.json();
                 setDepartures(data);
             } catch (err) {
+                if (err instanceof Error && err.name === 'AbortError') return;
                 console.error("Fetch error:", err);
-                setError(err);
+                setError(err instanceof Error ? err.message : 'An unexpected error occurred');
             } finally {
-                setLoading(false);
+                if (!controller.signal.aborted) setLoading(false);
             }
-        }
+        };
 
-        fetchDepartures();
+        void fetchStation();
+        void fetchDepartures();
         return () => controller.abort(); // Cleanup function
     }, [searchCode]); // <-- Adding searchCode here makes this effect react to input changes!
 
@@ -166,7 +175,7 @@ export default function App() {
 
                             return (
                                 <div key={train.id}
-                                     className="px-6 py-5 grid grid-cols-12 gap-4 items-start hover:bg-slate-900/50 transition-colors">
+                                     className="px-6 py-5 grid grid-cols-12 gap-4  hover:bg-slate-900/50 transition-colors items-center">
                                     {/* Time */}
                                     <span className="col-span-2 text-amber-500 font-mono text-lg font-bold">
                             {time}
@@ -182,13 +191,13 @@ export default function App() {
                                             {train.stops.length > 2 ? <>
                                                 <div className="scroll-container">
                                                     <div className="scroll-text">
-    <span style={{ fontSize: '10px', color: '#64748b' }}>
+    <span style={{ fontSize: '14px', color: '#ffffff' }}>
       Calls at: {train.stops.slice(1, -1).map(s => s.station.name).join(' • ')}
     </span>
                                                     </div>
                                                 </div>
                                             </> : <>
-                                                <div style={{fontSize: '10px', color: '#64748b'}}>Direct Service</div>
+                                                <div style={{fontSize: '10px', color: '#ffffff'}}>Direct Service</div>
                                             </>}
                                         </div>
                                     </div>
@@ -209,7 +218,7 @@ export default function App() {
                                         {train.status.status === 'On Time' ? (
                                             <span className="text-emerald-400">On Time</span>
                                         ) : (
-                                            <span className="text-amber-500 animate-pulse">
+                                            <span className="text-amber-300 animate-pulse">
                                     {train.status.status} {train.status.delayMinutes > 0 ? `(${train.status.delayMinutes}m)` : ''}
                                 </span>
                                         )}

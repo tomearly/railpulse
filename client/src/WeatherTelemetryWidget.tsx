@@ -1,43 +1,45 @@
 import { useEffect, useState } from 'react';
-import io from 'socket.io-client';
 
-// 1. Create the socket instance OUTSIDE the component
-// so it establishes a single, persistent connection
-const socket = io('http://localhost:4000', {
-    withCredentials: true,
-});
+const POLL_INTERVAL_MS = 30000;
 
 interface WeatherTelemetryWidgetProps {
     stationCode: string;
-    lat: number;
-    lng: number;
 }
 
-export default function WeatherTelemetryWidget({ stationCode, lat, lng }: WeatherTelemetryWidgetProps) {
+export default function WeatherTelemetryWidget({ stationCode }: WeatherTelemetryWidgetProps) {
     const [weather, setWeather] = useState<any>(null);
     const [lastUpdated, setLastUpdated] = useState<string | null>(null);
 
     useEffect(() => {
-        // 1. Instantly trigger a weather fetch for the new station's coordinates
         if (stationCode.length !== 3) return;
-        socket.emit('request-station-weather', { stationCode });
 
-        // 2. Define the listener for incoming data
-        const handleWeatherUpdate = (incomingData: any) => {
-            setWeather(incomingData);
-            setLastUpdated(new Date().toLocaleTimeString());
+        const controller = new AbortController();
+
+        const fetchWeather = async () => {
+            try {
+                const response = await fetch(`/api/v1/weather/${stationCode}`, { signal: controller.signal });
+                if (!response.ok) return;
+
+                const data = await response.json();
+                setWeather(data);
+                setLastUpdated(new Date().toLocaleTimeString());
+            } catch (err) {
+                if (err instanceof Error && err.name === 'AbortError') return;
+                console.error('Failed to fetch weather telemetry:', err);
+            }
         };
 
-        socket.on('rail-weather-stream', handleWeatherUpdate);
+        void fetchWeather();
+        const intervalId = setInterval(fetchWeather, POLL_INTERVAL_MS);
 
-        // Cleanup: remove the listener when the station changes or component unmounts
         return () => {
-            socket.off('rail-weather-stream', handleWeatherUpdate);
+            controller.abort();
+            clearInterval(intervalId);
         };
     }, [stationCode]);
 
     if (!weather) {
-        return <div className="p-4 text-slate-400">Awaiting live weather stream telemetry for {stationCode}...</div>;
+        return <div className="p-4 text-slate-400">Awaiting live weather telemetry for {stationCode}...</div>;
     }
 
     return (

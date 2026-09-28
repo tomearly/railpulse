@@ -1,7 +1,5 @@
 // server/src/index.ts
 import express from 'express';
-import http from 'http';
-import { Server } from 'socket.io';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
@@ -11,32 +9,19 @@ import { setupSwagger } from './swagger';
 
 import departureRoutes from './routes/departures';
 import stations from './routes/stations';
+import weather from './routes/weather';
 
 dotenv.config();
 
 const app = express();
-const server = http.createServer(app);
 
-const allowedOrigins = [
-    'http://localhost:5173',
-    'http://127.0.0.1:5173'
-];
+// Vite picks the next free port (5173, 5174, ...) when the default is taken,
+// so match any localhost/127.0.0.1 port in dev rather than hardcoding one.
+const devOriginPattern = /^https?:\/\/(localhost|127\.0\.0\.1):\d+$/;
 
-// Robust dynamic CORS configuration for Socket.io
-const io = new Server(server, {
-    cors: {
-        origin: (origin, callback) => {
-            if (!origin) return callback(null, true);
-            if (allowedOrigins.indexOf(origin) !== -1) {
-                callback(null, true);
-            } else {
-                callback(new Error('Not allowed by Socket.io CORS'));
-            }
-        },
-        methods: ['GET', 'POST'],
-        credentials: true
-    }
-});
+function isAllowedOrigin(origin: string) {
+    return devOriginPattern.test(origin);
+}
 
 const PORT = Number(process.env.PORT) || 4000;
 
@@ -59,7 +44,7 @@ app.use(helmet({
 app.use(cors({
     origin: (origin, callback) => {
         if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) !== -1) {
+        if (isAllowedOrigin(origin)) {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by Express CORS'));
@@ -74,69 +59,6 @@ app.use(express.json());
 setupSwagger(app);
 
 // ---------------------------------------------------------
-// WEATHER / REAL-TIME STREAMING SETUP
-// ---------------------------------------------------------
-const stationData = [
-    { name: 'London Euston', crs: 'EUS', lat: 51.5281, lng: -0.1337 },
-    { name: 'Manchester Piccadilly', crs: 'MAN', lat: 53.4774, lng: -2.2309 },
-    { name: 'Birmingham New Street', crs: 'BHM', lat: 52.4778, lng: -1.8992 },
-    { name: 'London Kings Cross', crs: 'KGX', lat: 51.5322, lng: -0.1233 },
-    { name: 'London Paddington', crs: 'PAD', lat: 51.5154, lng: -0.1755 },
-    { name: 'London Victoria', crs: 'VIC', lat: 51.4952, lng: -0.1439 },
-    { name: 'London St Pancras', crs: 'STP', lat: 51.5317, lng: -0.1260 },
-    { name: 'Cardiff Central', crs: 'CDF', lat: 51.4764, lng: -3.1779 }
-];
-
-const crsCodes = stationData.map(station => station.crs);
-
-async function fetchWeatherData(stationCode = 'EUS') {
-    try {
-        console.log('stationCode: ' + stationCode)
-        const station = stationData.find(station => station.crs === stationCode);
-
-        if (!station?.lat && !station?.lng) {
-            throw new Error('Cannot get data for station')
-        }
-
-        const response = await fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${station.lat}&longitude=${station.lng}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code`
-        );
-        const data = await response.json();
-        return data.current;
-    } catch (error) {
-        console.error('Failed to fetch weather feed:', error);
-        return null;
-    }
-}
-
-setInterval(async () => {
-    const weatherData = await fetchWeatherData();
-    if (weatherData) {
-        io.emit('rail-weather-stream', weatherData);
-    }
-}, 30000);
-
-io.on('connection', (socket) => {
-    let stationCode = socket.handshake.query.stationCode;
-
-    socket.on('request-station-weather', async ({ stationCode }) => {
-        const weatherData = await fetchWeatherData(stationCode);
-        if (weatherData) {
-            // Send it back exclusively to the client that asked,
-            // or use io.emit if you want to broadcast it
-            socket.emit('rail-weather-stream', weatherData);
-        } else {
-            socket.emit('rail-weather-stream', {});
-
-        }
-    });
-
-    socket.on('disconnect', () => {
-        console.log(`Client disconnected: ${socket.id}`);
-    });
-});
-
-// ---------------------------------------------------------
 // EXPRESS REST API ROUTES
 // ---------------------------------------------------------
 
@@ -146,6 +68,7 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/v1', departureRoutes);
 app.use('/api/v1', stations);
+app.use('/api/v1', weather);
 
 app.get('/api/arrivals', async (req, res) => {
     try {
@@ -230,6 +153,10 @@ app.post('/api/arrivals', async (req, res) => {
     }
 });
 
-server.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
-});
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`Server listening on port ${PORT}`);
+    });
+}
+
+export default app;

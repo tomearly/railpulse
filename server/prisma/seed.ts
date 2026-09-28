@@ -58,6 +58,8 @@ const trainOperators = [
 ];
 
 async function main() {
+  await clearDatabase();
+
   // 1. Setup Stations
   await prisma.station.createMany({data: stationData, skipDuplicates: true});
   const allStations = await prisma.station.findMany();

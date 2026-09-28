@@ -12,6 +12,7 @@
     white-space: nowrap;
     /* Use 'linear' for constant speed */
     animation: scroll-left 10s linear infinite;
+    color: white;
 }
 
 @keyframes scroll-left {
